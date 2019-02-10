@@ -9,7 +9,7 @@
                       :as "ratings")
               (review :via ,(s-prefix "schema:review")
                       :as "reviews"))
-  :resource-base (s-url "http://megandfelixeatcat.club/food-establishments/")
+  :resource-base (s-url "http://megandfelixeat.cat/food-establishments/")
 
   :features '(include-uri)
 
@@ -27,7 +27,7 @@
                      :inverse t
                      :as "review"))
 
-  :resource-base (s-url "http://megandfelixeatcat.club/ratings/")
+  :resource-base (s-url "http://megandfelixeat.cat/ratings/")
 
   :features '(include-uri)
 
@@ -38,7 +38,7 @@
   :properties `((:family-name :string ,(s-prefix "schema:familyName"))
                 (:name ,(s-prefix "schema:name")))
 
-  :resource-base (s-url "http://megandfelixeatcat.club/people-in-the-magazines/")
+  :resource-base (s-url "http://megandfelixeat.cat/people-in-the-magazines/")
 
   :features '(include-uri)
 
@@ -58,7 +58,7 @@
   :has-many `((person :via ,(s-prefix "schema:author")
                       :as "authors"))
 
-  :resource-base (s-url "http://megandfelixeatcat.club/review-your-own-dogfood/")
+  :resource-base (s-url "http://megandfelixeat.cat/review-your-own-dogfood/")
 
   :features '(include-uri)
 
