@@ -3,7 +3,7 @@
 (define-resource food-establishment ()
   ;;TODO cuisine types, type of establsihment, addres, photo
   :class (s-prefix "schema:FoodEstablishment")
-  :properties `((:name :string ,(s-prefix "schema:name")))
+  :properties `((:establishment-name :string ,(s-prefix "schema:name")))
 
   :has-many `((rating :via ,(s-prefix "schema:starRating")
                       :as "ratings")
@@ -36,7 +36,7 @@
 (define-resource person ()
   :class (s-prefix "schema:Person")
   :properties `((:family-name :string ,(s-prefix "schema:familyName"))
-                (:name ,(s-prefix "schema:name")))
+                (:firstname ,(s-prefix "schema:name")))
 
   :resource-base (s-url "http://megandfelixeat.cat/people-in-the-magazines/")
 
