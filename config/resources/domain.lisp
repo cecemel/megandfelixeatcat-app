@@ -1,67 +1,65 @@
 (in-package :mu-cl-resources)
 
-;;;;
-;; NOTE
-;; docker-compose stop; docker-compose rm; docker-compose up
-;; after altering this file.
+(define-resource food-establishment ()
+  ;;TODO cuisine types, type of establsihment, addres, photo
+  :class (s-prefix "schema:FoodEstablishment")
+  :properties `((:name :string ,(s-prefix "schema:name")))
 
-;; Describe your resources here
+  :has-many `((rating :via ,(s-prefix "schema:starRating")
+                      :as "ratings")
+              (review :via ,(s-prefix "schema:review")
+                      :as "reviews"))
+  :resource-base (s-url "http://megandfelixeatcat.club/food-establishments/")
 
-;; The general structure could be described like this:
-;;
-;; (define-resource <name-used-in-this-file> ()
-;;   :class <class-of-resource-in-triplestore>
-;;   :properties `((<json-property-name-one> <type-one> ,<triplestore-relation-one>)
-;;                 (<json-property-name-two> <type-two> ,<triplestore-relation-two>>))
-;;   :has-many `((<name-of-an-object> :via ,<triplestore-relation-to-objects>
-;;                                    :as "<json-relation-property>")
-;;               (<name-of-an-object> :via ,<triplestore-relation-from-objects>
-;;                                    :inverse t ; follow relation in other direction
-;;                                    :as "<json-relation-property>"))
-;;   :has-one `((<name-of-an-object :via ,<triplestore-relation-to-object>
-;;                                  :as "<json-relation-property>")
-;;              (<name-of-an-object :via ,<triplestore-relation-from-object>
-;;                                  :as "<json-relation-property>"))
-;;   :resource-base (s-url "<string-to-which-uuid-will-be-appended-for-uri-of-new-items-in-triplestore>")
-;;   :on-path "<url-path-on-which-this-resource-is-available>")
+  :features '(include-uri)
 
+  :on-path "food-establishments")
 
-;; An example setup with a catalog, dataset, themes would be:
-;;
-;; (define-resource catalog ()
-;;   :class (s-prefix "dcat:Catalog")
-;;   :properties `((:title :string ,(s-prefix "dct:title")))
-;;   :has-many `((dataset :via ,(s-prefix "dcat:dataset")
-;;                        :as "datasets"))
-;;   :resource-base (s-url "http://webcat.tmp.semte.ch/catalogs/")
-;;   :on-path "catalogs")
+;;TODO: I want recurrent review: the notion of preceding review and quality over time
+(define-resource rating ()
+  :class (s-prefix "schema:Rating")
+  :properties `((:rating-value :number ,(s-prefix "schema:ratingValue")) ;;between 0-5
+                (:veggie-score :number ,(s-prefix "meg:veggieScore"))
+                (:price-quality :number ,(s-prefix "meg:priceQuality"))
+                (:created :date ,(s-prefix "dct:created")))
 
-;; (define-resource dataset ()
-;;   :class (s-prefix "dcat:Dataset")
-;;   :properties `((:title :string ,(s-prefix "dct:title"))
-;;                 (:description :string ,(s-prefix "dct:description")))
-;;   :has-one `((catalog :via ,(s-prefix "dcat:dataset")
-;;                       :inverse t
-;;                       :as "catalog"))
-;;   :has-many `((theme :via ,(s-prefix "dcat:theme")
-;;                      :as "themes"))
-;;   :resource-base (s-url "http://webcat.tmp.tenforce.com/datasets/")
-;;   :on-path "datasets")
+  :has-one `((review :via ,(s-prefix "schema:reviewRating")
+                     :inverse t
+                     :as "review"))
 
-;; (define-resource distribution ()
-;;   :class (s-prefix "dcat:Distribution")
-;;   :properties `((:title :string ,(s-prefix "dct:title"))
-;;                 (:access-url :url ,(s-prefix "dcat:accessURL")))
-;;   :resource-base (s-url "http://webcat.tmp.tenforce.com/distributions/")
-;;   :on-path "distributions")
+  :resource-base (s-url "http://megandfelixeatcat.club/ratings/")
 
-;; (define-resource theme ()
-;;   :class (s-prefix "tfdcat:Theme")
-;;   :properties `((:pref-label :string ,(s-prefix "skos:prefLabel")))
-;;   :has-many `((dataset :via ,(s-prefix "dcat:theme")
-;;                        :inverse t
-;;                        :as "datasets"))
-;;   :resource-base (s-url "http://webcat.tmp.tenforce.com/themes/")
-;;   :on-path "themes")
+  :features '(include-uri)
 
-;;
+  :on-path "ratings")
+
+(define-resource person ()
+  :class (s-prefix "schema:Person")
+  :properties `((:family-name :string ,(s-prefix "schema:familyName"))
+                (:name ,(s-prefix "schema:name")))
+
+  :resource-base (s-url "http://megandfelixeatcat.club/people-in-the-magazines/")
+
+  :features '(include-uri)
+
+  :on-path "persons")
+
+(define-resource review ()
+  :class (s-prefix "schema:Review")
+  :properties `((:review-body :string ,(s-prefix "schema:reviewBody"))
+                (:headline :string ,(s-prefix "meg:reviewHeadline"))
+                (:created :date ,(s-prefix "dct:created")))
+
+  :has-one `((rating :via ,(s-prefix "schema:reviewRating")
+                     :as "rating")
+             (food-establishment :via ,(s-prefix "schema:itemReviewed")
+                                 :as "food-establishment"))
+
+  :has-many `((person :via ,(s-prefix "schema:author")
+                      :as "authors"))
+
+  :resource-base (s-url "http://megandfelixeatcat.club/review-your-own-dogfood/")
+
+  :features '(include-uri)
+
+  :on-path "reviews")
