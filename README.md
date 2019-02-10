@@ -1,4 +1,4 @@
-# mu-project
+# megandfelixeatcat-app
 
 Bootstrap a mu.semte.ch microservices environment in three easy steps.
 
