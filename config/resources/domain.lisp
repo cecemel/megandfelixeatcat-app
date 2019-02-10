@@ -36,7 +36,7 @@
 (define-resource reviewer ()
   :class (s-prefix "schema:Person")
   :properties `((:family-name :string ,(s-prefix "schema:familyName"))
-                (:firstname ,(s-prefix "schema:name")))
+                (:firstname :string ,(s-prefix "schema:name")))
 
   :resource-base (s-url "http://megandfelixeat.cat/people-in-the-magazines/")
 
