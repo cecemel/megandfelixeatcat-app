@@ -33,7 +33,7 @@
 
   :on-path "ratings")
 
-(define-resource person ()
+(define-resource reviewer ()
   :class (s-prefix "schema:Person")
   :properties `((:family-name :string ,(s-prefix "schema:familyName"))
                 (:firstname ,(s-prefix "schema:name")))
@@ -42,7 +42,7 @@
 
   :features '(include-uri)
 
-  :on-path "persons")
+  :on-path "reviewers")
 
 (define-resource review ()
   :class (s-prefix "schema:Review")
@@ -55,7 +55,7 @@
              (food-establishment :via ,(s-prefix "schema:itemReviewed")
                                  :as "food-establishment"))
 
-  :has-many `((person :via ,(s-prefix "schema:author")
+  :has-many `((reviewer :via ,(s-prefix "schema:author")
                       :as "authors"))
 
   :resource-base (s-url "http://megandfelixeat.cat/review-your-own-dogfood/")
