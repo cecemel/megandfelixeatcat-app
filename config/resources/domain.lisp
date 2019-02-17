@@ -7,7 +7,8 @@
 
   :has-many `((rating :via ,(s-prefix "schema:starRating")
                       :as "ratings")
-              (review :via ,(s-prefix "schema:review")
+              (review :via ,(s-prefix "schema:itemReviewed")
+                      :inverse t
                       :as "reviews"))
   :resource-base (s-url "http://megandfelixeat.cat/food-establishments/")
 
