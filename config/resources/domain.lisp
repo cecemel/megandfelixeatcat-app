@@ -1,5 +1,7 @@
 (in-package :mu-cl-resources)
 
+;;mainly based on https://schema.org/FoodEstablishment
+
 (define-resource food-establishment ()
   ;;TODO cuisine types, type of establsihment, addres, photo
   :class (s-prefix "schema:FoodEstablishment")
@@ -21,12 +23,14 @@
   :class (s-prefix "schema:Rating")
   :properties `((:rating-value :number ,(s-prefix "schema:ratingValue")) ;;between 0-5
                 (:veggie-score :number ,(s-prefix "meg:veggieScore"))
-                (:price-quality :number ,(s-prefix "meg:priceQuality"))
                 (:created :date ,(s-prefix "dct:created")))
 
   :has-one `((review :via ,(s-prefix "schema:reviewRating")
                      :inverse t
-                     :as "review"))
+                     :as "review")
+             (food-establishment :via ,(s-prefix "schema:starRating")
+                                 :inverse t
+                                 :as "food-establishment"))
 
   :resource-base (s-url "http://megandfelixeat.cat/ratings/")
 
