@@ -31,7 +31,7 @@ defmodule Dispatcher do
     Proxy.forward conn, path, "http://resource/reviews/"
   end
   match "/files/*path" do
-    Proxy.forward conn, path, "http://resource/files/"
+    Proxy.forward conn, path, "http://file/files/"
   end
 
  match _ do
