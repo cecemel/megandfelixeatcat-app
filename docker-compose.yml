@@ -24,3 +24,9 @@ services:
       - virtuoso:database
     volumes:
       - ./config/resources:/config
+  file:
+    image: semtech/mu-file-service:3.1.0
+    links:
+      - virtuoso:database
+    volumes:
+      - ./data/files:/share
